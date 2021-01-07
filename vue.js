@@ -2,9 +2,7 @@ const App = {
   data() {
     return {
       activeIndex: 0,
-      prevIsDisabled: true,
-      lastIsActive: false,
-      wayIsFinished: false,
+      isFinished: false,
       steps: [
         {title: 'Основы', text: 'В блоке вы познакомитесь со всеми основами Vue.js на практике. На протяжении блока мы напишем реактивное приложение, в процессе разработки которого разберем вся базу фреймворка.'},
         {title: 'Компоненты', text: 'Один из самых важных блоков в курсе, где вы узнаете все о компонентах. В блоке мы напишем 2 разных приложения и создадим более 5 различных UI компонентов как в реальной разработке. Блок расскажет про абсолютно все составляющие, которые есть в компонентах: взаимодействие, slots, асинхронные и динамические компоненты и тонна примеров.'},
@@ -22,27 +20,22 @@ const App = {
       this.setActive(0) 
     },
     nextOrFinish() { 
-      this.lastIsActive 
-        ? this.wayIsFinished = true 
+      this.isLastStep 
+        ? this.isFinished = true 
         : this.setActive(this.activeIndex + 1) 
     },
     setActive(idx) {
-      this.activeIndex    = idx
-      this.prevIsDisabled = idx === 0 ? true : false
-      this.lastIsActive   = idx === this.steps.length - 1 ? true : false
-
-      idx === this.steps.length - 1 ? false : this.wayIsFinished = false
+      this.activeIndex = idx
+      this.isFinished  = idx === this.steps.length - 1 ? this.isFinished : false
     },
   },
   computed: {
     isPrevDisabled() { 
-      return this.prevIsDisabled 
+      return this.activeIndex === 0
     },
     isLastStep() { 
-      return this.lastIsActive 
-    },
-    isFinished() { 
-      return this.wayIsFinished 
+      // выполняется при каждом переключении шага, не только при изменении статуса последнего шага
+      return this.activeIndex === this.steps.length - 1
     }
   }
 }
