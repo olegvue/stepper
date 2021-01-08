@@ -14,6 +14,7 @@ const App = {
   },
   methods: {
     prev() { 
+      if (this.activeIndex === 0) return
       this.setActive(this.activeIndex - 1) 
     },
     reset() { 
